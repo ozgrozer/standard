@@ -8,12 +8,30 @@ import 'prismjs/components/prism-javascript'
 import styles from './../styles/index.module.scss'
 
 const EditorComponent = ({ code, readOnly, onValueChange }) => {
+  const [isPasting, setIsPasting] = useState(false)
+  const handlePaste = event => {
+    if (readOnly) return
+
+    setIsPasting(true)
+    const pastedText = event.clipboardData.getData('text')
+    onValueChange({ code: pastedText })
+  }
+
+  const handleChange = (code) => {
+    if (isPasting) {
+      setIsPasting(false)
+      return
+    }
+    onValueChange({ code })
+  }
+
   return (
     <Editor
       value={code}
       padding={10}
+      onPaste={handlePaste}
       className={styles.editor}
-      onValueChange={readOnly ? () => {} : code => onValueChange({ code })}
+      onValueChange={readOnly ? () => {} : handleChange}
       highlight={code => code && languages.javascript ? highlight(code, languages.javascript) : ''}
     />
   )
@@ -39,7 +57,7 @@ export default () => {
   return (
     <>
       <Head>
-        <title>Standard Fix</title>
+        <title>Standard</title>
       </Head>
 
       <div className={styles.wrapper}>
