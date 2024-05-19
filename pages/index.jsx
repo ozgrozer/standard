@@ -2,8 +2,8 @@ import Head from 'next/head'
 import { useState } from 'react'
 import Editor from 'react-simple-code-editor'
 import { highlight, languages } from 'prismjs'
+import 'prismjs/themes/prism-okaidia.css'
 import 'prismjs/components/prism-javascript'
-import 'prism-themes/themes/prism-atom-dark.css'
 
 const EditorComponent = ({ code, setCode }) => {
   return (
@@ -14,8 +14,8 @@ const EditorComponent = ({ code, setCode }) => {
       highlight={code => highlight(code, languages.javascript)}
       style={{
         fontSize: 12,
-        color: '#fff',
-        backgroundColor: '#1D1F21',
+        color: '#F8F7F4',
+        backgroundColor: '#272822',
         fontFamily: '"Fira code", "Fira Mono", monospace'
       }}
     />
