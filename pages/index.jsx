@@ -5,13 +5,13 @@ import { highlight, languages } from 'prismjs'
 import 'prismjs/themes/prism-okaidia.css'
 import 'prismjs/components/prism-javascript'
 
-const EditorComponent = ({ code, setCode }) => {
+const EditorComponent = ({ code, setCode, readOnly }) => {
   return (
     <Editor
       value={code}
       padding={10}
-      onValueChange={code => setCode(code)}
       highlight={code => highlight(code, languages.javascript)}
+      onValueChange={readOnly ? () => {} : code => setCode(code)}
       style={{
         fontSize: 12,
         color: '#F8F7F4',
@@ -59,6 +59,7 @@ export default () => {
 
         <div>
           <EditorComponent
+            readOnly
             code={fixedCode}
           />
         </div>
