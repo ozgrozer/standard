@@ -10,8 +10,8 @@ const EditorComponent = ({ code, readOnly, onValueChange }) => {
     <Editor
       value={code}
       padding={10}
-      highlight={code => highlight(code, languages.javascript)}
       onValueChange={readOnly ? () => {} : code => onValueChange({ code })}
+      highlight={code => code && languages.javascript ? highlight(code, languages.javascript) : ''}
       style={{
         fontSize: 12,
         color: '#F8F7F4',
