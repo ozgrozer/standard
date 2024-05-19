@@ -1,13 +1,32 @@
 import Head from 'next/head'
 import { useState } from 'react'
+import Editor from 'react-simple-code-editor'
+import { highlight, languages } from 'prismjs'
+import 'prismjs/components/prism-javascript'
+import 'prismjs/themes/prism.css'
+
+const EditorComponent = ({ code, setCode }) => {
+  return (
+    <Editor
+      value={code}
+      padding={10}
+      onValueChange={code => setCode(code)}
+      highlight={code => highlight(code, languages.javascript)}
+      style={{
+        fontSize: 12,
+        fontFamily: '"Fira code", "Fira Mono", monospace'
+      }}
+    />
+  )
+}
 
 export default () => {
+  const [code, setCode] = useState('var x = 1;')
   const [fixedCode, setFixedCode] = useState('')
 
   const handleSubmit = async event => {
     event.preventDefault()
 
-    const code = event.target.elements.code.value
     const response = await fetch('/api/fix', {
       method: 'POST',
       body: JSON.stringify({ code }),
@@ -25,11 +44,22 @@ export default () => {
       </Head>
 
       <form onSubmit={handleSubmit}>
-        <textarea name='code' cols='40' rows='10' defaultValue='var x = 1;' />
-        <br />
-        <button type='submit'>Submit</button>
-        <br />
-        <textarea name='fixedCode' cols='40' rows='10' value={fixedCode} readOnly />
+        <div>
+          <EditorComponent
+            code={code}
+            setCode={setCode}
+          />
+        </div>
+
+        <div>
+          <button type='submit'>Submit</button>
+        </div>
+
+        <div>
+          <EditorComponent
+            code={fixedCode}
+          />
+        </div>
       </form>
     </>
   )
