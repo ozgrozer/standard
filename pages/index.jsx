@@ -5,13 +5,13 @@ import { highlight, languages } from 'prismjs'
 import 'prismjs/themes/prism-okaidia.css'
 import 'prismjs/components/prism-javascript'
 
-const EditorComponent = ({ code, setCode, readOnly }) => {
+const EditorComponent = ({ code, readOnly, onValueChange }) => {
   return (
     <Editor
       value={code}
       padding={10}
       highlight={code => highlight(code, languages.javascript)}
-      onValueChange={readOnly ? () => {} : code => setCode(code)}
+      onValueChange={readOnly ? () => {} : code => onValueChange({ code })}
       style={{
         fontSize: 12,
         color: '#F8F7F4',
@@ -26,12 +26,12 @@ export default () => {
   const [code, setCode] = useState('var x = 1;')
   const [fixedCode, setFixedCode] = useState('')
 
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const onValueChange = async ({ code: _code }) => {
+    setCode(_code)
 
     const response = await fetch('/api/fix', {
       method: 'POST',
-      body: JSON.stringify({ code }),
+      body: JSON.stringify({ code: _code }),
       headers: { 'Content-Type': 'application/json' }
     })
     const data = await response.json()
@@ -45,11 +45,11 @@ export default () => {
         <title>Standard Fix</title>
       </Head>
 
-      <form onSubmit={handleSubmit}>
+      <div>
         <div>
           <EditorComponent
             code={code}
-            setCode={setCode}
+            onValueChange={onValueChange}
           />
         </div>
 
@@ -63,7 +63,7 @@ export default () => {
             code={fixedCode}
           />
         </div>
-      </form>
+      </div>
     </>
   )
 }
