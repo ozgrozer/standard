@@ -54,10 +54,6 @@ export default () => {
         </div>
 
         <div>
-          <button type='submit'>Submit</button>
-        </div>
-
-        <div>
           <EditorComponent
             readOnly
             code={fixedCode}
