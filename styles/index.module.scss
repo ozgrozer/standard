@@ -10,8 +10,9 @@
     .editor {
       height: 100%;
       color: #F8F7F4;
-      font-size: 12px;
+      font-size: 13px;
       background-color: #272822;
+      overflow-y: auto !important;
       font-family: "Fira code", "Fira Mono", monospace;
 
       textarea {
